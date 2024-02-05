@@ -1,0 +1,33 @@
+api-version: 2019-12-01
+location: eastus
+name: hackapp
+properties:
+  containers:
+  - name: streamlitapp
+    properties:
+      image: hackappregistry.azurecr.io/hackapp_demo:v1
+      ports:
+      - port: 80
+        protocol: TCP
+      - port: 443
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 2.0
+          memoryInGB: 1.5
+  imageRegistryCredentials:
+  - server: hackappregistry.azurecr.io
+    username: hackappregistry
+    password: jI7OJ6C1izR/6pbHQgdyiEOIKJcEIui9pc8zAxmpPh+ACRDCGKM4
+  restartPolicy: Never
+  ipAddress:
+    ports:
+    - port: 443
+      protocol: TCP
+    - port: 80
+      protocol: TCP
+    type: Public
+    dnsNameLabel: hackapp
+  osType: Linux
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
