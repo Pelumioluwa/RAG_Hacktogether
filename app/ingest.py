@@ -1,8 +1,6 @@
 from langchain.text_splitter import CharacterTextSplitter
-# from langchain.document_loaders import PyPDFDirectoryLoader
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 import re
-# from langchain_openai import OpenAIEmbeddings
 
 # load the directory
 def context(option): 
