@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Sidebar
-st.sidebar.image("Sample logo.png", width=200)  # Replace with your logo
+st.sidebar.image("app/Sample logo.png", width=200)  # Replace with your logo
 st.sidebar.button("Environment")
 chat_button = st.sidebar.button("Chat")
 
