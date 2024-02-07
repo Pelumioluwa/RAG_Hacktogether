@@ -7,13 +7,11 @@ from langchain.chains import ConversationalRetrievalChain
 import ingest
 import os
 
-# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_merged.py
-
 def qa_llm(data, prompt):
     embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_documents(data, embedding=embeddings)
 
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
 
     memory = ConversationBufferMemory(
         memory_key='chat_history',
@@ -35,57 +33,61 @@ def qa_llm(data, prompt):
 def main():
     # Sidebar
     with st.sidebar:
-        st.image("app/gptlearner.png", width=250)  
-        openai_api_key = st.text_input("OpenAI API Key", key="langchain_search_api_key_openai", type="password")
-        # Set the API key as an environment variable
-        os.environ["OPENAI_API_KEY"] = openai_api_key   
-        # api_key = st.text_input("Enter your OpenAI API Key", type="password")
+        st.image("Sample logo.png", width=200)  # Replace with your logo
+        st.markdown("# Please enter your OpenAI API KEY")
+        api_key = st.text_input("", type="password")
 
-        #st.markdown("## ")
-        subjects = ['Calculus 1', 'Physics', 'Computer Science', 'Finance']
-        subject = st.selectbox("Choose your subject", subjects)
+        st.markdown("## Choose your subject")
+        subjects = ["Calculus 1", "Physics 1", "Finance", "History"]
+        subject = st.selectbox("", subjects)
 
-        #st.markdown("## Upload Your Own PDF")
-        pdf_file = st.file_uploader("## Upload Your Own PDF", type=['pdf'])
+        st.markdown("## Upload Your Own PDF")
+        pdf_file = st.file_uploader("", type=['pdf'])
 
-        #st.markdown("## Enter a WebPage")
-        url = st.text_input("Enter a WebPage", placeholder="https://wikipedia.org/yoursubject")
+        st.markdown("## Enter a WebPage")
+        url = st.text_input("")
 
-        #st.markdown("## ")
-        languages = ["English", "Spanish", "French"]
-        language = st.selectbox("Select the Language for Responses", languages)
+        st.markdown("## Select the Language for Responses")
+        languages = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Chinese (Simplified)", "Japanese", "Hindi", "Yoruba", "Russian"]
+        language = st.selectbox("", languages)
 
-    # RHS of Screen 
+    # Check if any input is activated
     if 'input_activated' not in st.session_state:
         st.session_state.input_activated = False
 
-    if subject or pdf_file or url:
-        st.session_state.input_activated = True
+        if subject or pdf_file or url:
+            st.session_state.input_activated = True
 
     # If input is activated and language is selected, activate chat functionality
     if st.session_state.input_activated and language:
+        # Remove all other elements and start chat functionality
+        st.empty()
+        st.write("Chat functionality goes here")
+
         if "messages" not in st.session_state:
             st.session_state["messages"] = [
                 {"role": "assistant", "content": "Hi, I'm a chatbot trained in first year university concepts. Ask select a topic and ask me question to learn with me."}
             ]
 
-        for msg in st.session_state.messages:
-            st.chat_message(msg["role"]).write(msg["content"])
+            for msg in st.session_state.messages:
+                st.chat_message(msg["role"]).write(msg["content"])
 
-        if prompt := st.chat_input(placeholder="What's a derivative?"):
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            st.chat_message("user").write(prompt)
+            if prompt := st.chat_input(placeholder="What's a derivative?"):
+                st.session_state.messages.append({"role": "user", "content": prompt})
+                st.chat_message("user").write(prompt)
 
-            if not openai_api_key:
+            if not api_key:
                 st.info("Please add your OpenAI API key to continue.")
                 st.stop()
 
             data = ingest.context(subject)
             response = qa_llm(data, prompt)
 
-            with st.chat_message("assistant"):
-                st.session_state.messages.append({"role": "assistant", "content": response})
-                st.write(response)
+                with st.chat_message("assistant"):
+                    st.session_state.messages.append({"role": "assistant", "content": response})
+                    st.write(response)
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
 
 if __name__ == '__main__':
     main()
