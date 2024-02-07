@@ -18,6 +18,7 @@ import ingest
 import os
 
 def qa_llm(data, prompt):
+    print(data)
     embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_documents(data, embedding=embeddings)
 
@@ -61,7 +62,8 @@ def main():
         st.markdown("## Choose your language")
         languages = ["English", "Spanish", "French"]
         language = st.selectbox('What language do you want to study in?', languages)
-
+    
+    # RHS of Screen
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
             {"role": "assistant", "content": "Hi, I'm a chatbot trained in first year university concepts. Ask select a topic and ask me question to learn with me."}
