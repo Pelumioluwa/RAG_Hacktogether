@@ -1,4 +1,4 @@
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 import re
 
@@ -19,7 +19,7 @@ def context(option):
 
     print(len(data))
     # chunk the data
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=0.25)
     data = text_splitter.split_documents(data)
 
     for document in data:
