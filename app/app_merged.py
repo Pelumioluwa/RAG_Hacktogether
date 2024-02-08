@@ -7,7 +7,6 @@ from langchain.chains import ConversationalRetrievalChain
 import ingest
 import os
 
-# API KEY: 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
 # streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_merged.py
 
 def qa_llm(data, prompt):
@@ -48,9 +47,8 @@ def main():
 
         url = st.text_input("Enter a WebPage", placeholder="https://www.yourtopic.com")
 
-        st.markdown("## Select the Language for Responses")
         languages = ["English", "Spanish", "French"]
-        language = st.selectbox("", languages)
+        language = st.selectbox("Select the Language for Responses", languages)
 
     # Check if any input is activated
     if 'input_activated' not in st.session_state:
