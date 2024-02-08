@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import FAISS
+# from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
@@ -11,7 +12,8 @@ import os
 
 def qa_llm(data, prompt):
     embeddings = OpenAIEmbeddings()
-    vectorstore = FAISS.from_documents(data, embedding=embeddings)
+    #vectorstore = FAISS.from_documents(data, embedding=embeddings)
+    vectorstore = Chroma.from_documents(data, embedding=embeddings)
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
 
