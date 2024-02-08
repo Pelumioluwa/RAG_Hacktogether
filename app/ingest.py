@@ -6,7 +6,7 @@ import re
 def context(option): 
     print("inside ingest.py", option)
     if option == 'Calculus 1':
-        pdf_file_path = 'app/Knowledge Base/Calculus'
+        pdf_file_path = 'app/Knowledge Base/Calculus 1'
     elif option == 'Physics':
         pdf_file_path = 'app/Knowledge Base/Physics'
     elif option == 'Computer Science':
