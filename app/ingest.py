@@ -7,7 +7,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 import json
 from dotenv import dotenv_values
 
-#config = dotenv_values('app/credentials.env')
+#config = dotenv_values('credentials.env')
+
 #huggingface_token = config['huggingface_token']
 
 
@@ -64,29 +65,55 @@ def generate_embeddings(text):
 
 #generate embeddings for document title and contents in file 
 def generate_embeddings_for_documents(data):
-    subject = {}
+    # Initialize an empty list for the new data
+    subject = []
 
+    # Initialize a counter
+    i = 1
+
+    # Initialize a variable to keep track of the previous filename
+    previous_filename = None
+
+    # Iterate over the items in the data dictionary
     for filename, document in data.items():
-        title_embeddings = generate_embeddings(filename)
-        subject[filename] = {'title_embeddings': title_embeddings}
-        subject[filename].update({f'page_content_{filename}_{i+1}': {'content': page, 'content_embeddings': generate_embeddings(page)} 
-                                  for i, page in enumerate(document)})
-        subject['@search.action'] = 'upload'
+        # Check if the previous filename is the same as the current filename
+        if previous_filename != filename:
+            # If they are different, reset the counter to 1
+            i = 1
+
+        # Iterate over the list of page contents in the document
+        for page_content in document:
+            # Create a new dictionary with the specified keys and values
+            subject.append({
+                "id": f"{filename}_page_content_{i}",
+                "Content": page_content,
+                "ContentEmbedding": generate_embeddings(page_content),
+                "BookTitle": filename,
+                "TitleEmbedding": generate_embeddings(filename),
+                "@search.action": "upload"
+            })
+
+            # Increment the counter
+            i += 1
+
+        # Update the previous filename to the current filename
+        previous_filename = filename
 
     return subject
-
 
 #load data from directories
 def context(option): 
     print("inside ingest.py", option)
-    if option == 'Calculus 1':
-        pdf_dir_path = 'app/Knowledge Base/Calculus 1'
+    if option == 'Calculus':
+        pdf_dir_path = 'Knowledge Base/demo/Calculus 1_full'
     elif option == 'Physics':
-        pdf_dir_path = 'app/Knowledge Base/Physics'
+        pdf_dir_path = 'Knowledge Base/demo/Physics_full'
     elif option == 'Computer Science':
-        pdf_dir_path = 'app/Knowledge Base/demo/Computer Science_full'
+        pdf_dir_path = 'Knowledge Base/demo/Computer Science_full'
     elif option == 'Finance':
-        pdf_dir_path = 'app/Knowledge Base/Finance'
+        pdf_dir_path = 'Knowledge Base/demo/Finance_full'
+    elif option == 'test':
+        pdf_dir_path = 'Knowledge Base/Calculus 1'
 
     #load each file in directory and read the document 
     #save each document in dictionary with file name and file contents 
@@ -102,6 +129,5 @@ def context(option):
     with open(f"{option}.json", "w") as f:
         json.dump(course_jsonfile, f)
     
-    return data
-     
+    return course_jsonfile
 
