@@ -1,5 +1,4 @@
 import streamlit as st
-from io import BytesIO
 from langchain_openai import OpenAIEmbeddings
 # from langchain_community.vectorstores import FAISS
 from langchain_community.vectorstores import Chroma
@@ -8,9 +7,10 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 import user_pdf_processor
 import ingest
+import scrape
 import os
 
-# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_merged.py
+# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_V3.0.py
 
 def qa_llm(data, prompt):
     embeddings = OpenAIEmbeddings()
@@ -37,6 +37,7 @@ def qa_llm(data, prompt):
     return result["answer"]
 
 #Function to read user PDF and send it to the LLM
+
 def qa_pdf_llm(data, prompt):
     embeddings = OpenAIEmbeddings()
     #vectorstore = FAISS.from_documents(data, embedding=embeddings)
@@ -61,8 +62,6 @@ def qa_pdf_llm(data, prompt):
 
     return result["answer"]
 
-
-
 def main():
     # Initialize session state if not already initialized
     if 'input_method' not in st.session_state:
@@ -70,44 +69,34 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.image("gptlearner.png", width=250)  # Replace with your logo
-        st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>Enter your OpenAI API Key</div>", unsafe_allow_html=True)
-        openai_api_key = st.text_input("", key="langchain_search_api_key_openai", type="password")
+        st.image("app/gptlearner.png", width=250)  # Replace with your logo
+
+        # OpenAI API Key input field
+        openai_api_key = st.text_input("Enter your OpenAI API Key", key="langchain_search_api_key_openai", type="password")
         # Set the API key as an environment variable
         os.environ["OPENAI_API_KEY"] = openai_api_key            
 
-        st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>Choose your subject</div>", unsafe_allow_html=True)
+        # Subject input field
         subjects = ['','Calculus 1', 'Physics', 'Computer Science', 'Finance']
-        subject = st.selectbox("", subjects) 
+        subject = st.selectbox("Select A Subject", subjects) 
 
         # PDF file uploader
-        st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>or Upload Your Own PDF</div>", unsafe_allow_html=True)
-        pdf_file = st.file_uploader("", type=['pdf']) 
+        pdf_file = st.file_uploader("Upload Your Own PDF", type=['pdf']) 
         # "Read PDF" button
         read_pdf_button = st.button('Read PDF')  
         if pdf_file and read_pdf_button:
             st.session_state.input_method = 'pdf'           
-                        
-
+                    
         # URL input field
-        st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>or Enter a WebPage</div>", unsafe_allow_html=True)
-        url = st.text_input("", placeholder="https://www.yourtopic.com") 
+        url = st.text_input("Enter a Webpage", placeholder="https://www.yourtopic.com") 
         # "Read URL" button
         read_url_button = st.button('Read URL')  
         if url and read_url_button:
             st.session_state.input_method = 'url'
-            
-
-        st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>Select the Language for Responses</div>", unsafe_allow_html=True)
+        
+        # Language selection
         languages = ["English", "Spanish", "French"]
-        language = st.selectbox("", languages)
-
-        #if st.session_state.input_method == 'subject':
-            #data = ingest.context(subject)
-        #elif st.session_state.input_method == 'pdf':
-            #data = ingest.context(pdf_file.getvalue())  # assuming ingest.context can handle a PDF file
-        #elif st.session_state.input_method == 'url':
-            #data = ingest.context(url)  # assuming ingest.context can handle a URL
+        language = st.selectbox("Select the Language for Responses", languages)
 
     # Check if any input is activated
     if 'input_activated' not in st.session_state:
@@ -127,6 +116,7 @@ def main():
     
     if st.session_state.input_method == 'subject':
         data = ingest.context(subject)
+
     elif st.session_state.input_method == 'pdf':
         pdf_data = pdf_file.read()
         pdf_filename = pdf_file.name  # Get the name of the uploaded PDF file
@@ -134,9 +124,9 @@ def main():
 
         #Read the PDF file and send it to the LLM            
         data = user_pdf_processor.extract_text_from_pdf(pdf_data)
+   
     elif st.session_state.input_method == 'url':
-        # Read the webpage and send it to the LLM
-        data = ingest.context(url)  #TBC - assuming ingest.context can handle a URL
+        data = scrape.scrape_web(url)
 
     if prompt := st.chat_input(placeholder="What's a derivative?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -148,12 +138,16 @@ def main():
 
         if st.session_state.input_method == 'subject':
             response = qa_llm(data, prompt)
+      
         elif st.session_state.input_method == 'pdf':
             response = qa_pdf_llm(data, prompt)
+
+        elif st.session_state.input_method == 'url':
+            response = qa_llm(data, prompt)
+
         with st.chat_message("assistant"):
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.write(response)
-
 
 if __name__ == '__main__':
     main()
