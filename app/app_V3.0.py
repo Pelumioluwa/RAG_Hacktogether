@@ -1,10 +1,12 @@
 import streamlit as st
+from io import BytesIO
 from langchain_openai import OpenAIEmbeddings
 # from langchain_community.vectorstores import FAISS
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
+from user_pdf_processor import extract_text_from_pdf
 import ingest
 import os
 
@@ -48,39 +50,39 @@ def main():
         os.environ["OPENAI_API_KEY"] = openai_api_key            
 
         st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>Choose your subject</div>", unsafe_allow_html=True)
-        subjects = ['Calculus 1', 'Physics', 'Computer Science', 'Finance']
-        subject = st.selectbox("", subjects) if st.session_state.input_method is None else None
+        subjects = ['','Calculus 1', 'Physics', 'Computer Science', 'Finance']
+        subject = st.selectbox("", subjects) 
 
         # PDF file uploader
         st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>or Upload Your Own PDF</div>", unsafe_allow_html=True)
-        pdf_file = st.file_uploader("", type=['pdf']) if st.session_state.input_method is None else None
+        pdf_file = st.file_uploader("", type=['pdf']) 
         # "Read PDF" button
-        read_pdf_button = st.button('Read PDF')  # always render the button
+        read_pdf_button = st.button('Read PDF')  
         if pdf_file and read_pdf_button:
             st.session_state.input_method = 'pdf'
-            # Read the PDF file and send it to the LLM
-            data = ingest.context(pdf_file.getvalue())
+            pdf_data = pdf_file.read()
+            st.info("PDF File Read Successfully. Ask your question now!")
+            
 
         # URL input field
         st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>or Enter a WebPage</div>", unsafe_allow_html=True)
-        url = st.text_input("", placeholder="https://www.yourtopic.com") if st.session_state.input_method is None else None
+        url = st.text_input("", placeholder="https://www.yourtopic.com") 
         # "Read URL" button
-        read_url_button = st.button('Read URL')  # always render the button
+        read_url_button = st.button('Read URL')  
         if url and read_url_button:
             st.session_state.input_method = 'url'
-            # Read the webpage and send it to the LLM
-            data = ingest.context(url)
+            
 
         st.markdown("<div style='font-size:medium; font-weight:bold; margin-bottom:-50px; margin-top:0px;'>Select the Language for Responses</div>", unsafe_allow_html=True)
         languages = ["English", "Spanish", "French"]
         language = st.selectbox("", languages)
 
-        if st.session_state.input_method == 'subject':
-            data = ingest.context(subject)
-        elif st.session_state.input_method == 'pdf':
-            data = ingest.context(pdf_file.getvalue())  # assuming ingest.context can handle a PDF file
-        elif st.session_state.input_method == 'url':
-            data = ingest.context(url)  # assuming ingest.context can handle a URL
+        #if st.session_state.input_method == 'subject':
+            #data = ingest.context(subject)
+        #elif st.session_state.input_method == 'pdf':
+            #data = ingest.context(pdf_file.getvalue())  # assuming ingest.context can handle a PDF file
+        #elif st.session_state.input_method == 'url':
+            #data = ingest.context(url)  # assuming ingest.context can handle a URL
 
     # Check if any input is activated
     if 'input_activated' not in st.session_state:
@@ -106,7 +108,16 @@ def main():
             st.info("Please add your OpenAI API key to continue.")
             st.stop()
 
-        data = ingest.context(subject)
+
+        if st.session_state.input_method == 'subject':
+            data = ingest.context(subject)
+        elif st.session_state.input_method == 'pdf':
+            #Read the PDF file and send it to the LLM            
+            data = extract_text_from_pdf(pdf_data)
+        elif st.session_state.input_method == 'url':
+            # Read the webpage and send it to the LLM
+            data = ingest.context(url)  #TBC - assuming ingest.context can handle a URL
+        
         response = qa_llm(data, prompt)
 
         with st.chat_message("assistant"):

@@ -7,10 +7,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 import json
 from dotenv import dotenv_values
 
-#config = dotenv_values('credentials.env')
-
-#huggingface_token = config['huggingface_token']
-
 
 #clean loaded text
 def preprocess(text):
@@ -104,16 +100,14 @@ def generate_embeddings_for_documents(data):
 #load data from directories
 def context(option): 
     print("inside ingest.py", option)
-    if option == 'Calculus':
-        pdf_dir_path = 'Knowledge Base/demo/Calculus 1_full'
-    elif option == 'Physics':
-        pdf_dir_path = 'Knowledge Base/demo/Physics_full'
-    elif option == 'Computer Science':
-        pdf_dir_path = 'Knowledge Base/demo/Computer Science_full'
-    elif option == 'Finance':
-        pdf_dir_path = 'Knowledge Base/demo/Finance_full'
-    elif option == 'test':
+    if option == 'Calculus 1':
         pdf_dir_path = 'Knowledge Base/Calculus 1'
+    elif option == 'Physics':
+        pdf_dir_path = 'Knowledge Base/Physics'
+    elif option == 'Computer Science':
+        pdf_dir_path = 'Knowledge Base/Computer Science'
+    elif option == 'Finance':
+        pdf_dir_path = 'Knowledge Base/Finance'
 
     #load each file in directory and read the document 
     #save each document in dictionary with file name and file contents 

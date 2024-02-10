@@ -1,3 +1,7 @@
+""" This file is used to push the content of pdf files and
+their respective vector embeddings to the cosmos db container."""
+
+
 import ingest
 from dotenv import dotenv_values
 from azure.cosmos import CosmosClient,exceptions,PartitionKey
@@ -62,7 +66,7 @@ def load_data_to_container(data):
 
 
 #import textbook folder to cosmos db
-#computer_science = ingest.context('Computer Science')
+#computer_science = ingest.context('Computer Science') 
 #load_data_to_container(computer_science)
 
 #calculus = ingest.context('Calculus')
