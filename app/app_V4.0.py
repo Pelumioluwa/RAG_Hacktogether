@@ -16,38 +16,13 @@ import os
 def qa_llm(data, prompt):
     # Initialize OpenAI embeddings and Chroma vector store
     embeddings = OpenAIEmbeddings()
-    vectorstore = Chroma.from_documents(data, embedding=embeddings)
 
-    # Initialize ChatOpenAI model
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
-
-    # Initialize conversation memory
-    memory = ConversationBufferMemory(
-        memory_key='chat_history',
-        return_messages=True,
-        output_key='answer'
-    )
-
-    # Initialize conversational retrieval chain
-    conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        chain_type="stuff",
-        retriever=vectorstore.as_retriever(),
-        memory=memory,
-        return_source_documents=True
-    )
-    
-    # Get response from the model
-    result = conversation_chain({"question": prompt})
-
-    return result["answer"]
-
-# Function to read user PDF and send it to the LLM for question answering
-def qa_pdf_llm(data, prompt):
-    # Initialize OpenAI embeddings and Chroma vector store
-    embeddings = OpenAIEmbeddings()
-    vectorstore = Chroma.from_texts([page['page_content'] for page in data], embedding=embeddings)
-
+    if st.session_state.input_method == 'pdf':
+        vectorstore = Chroma.from_texts([page['page_content'] for page in data], embedding=embeddings)
+        
+    else:
+        vectorstore = Chroma.from_documents(data, embedding=embeddings)
+       
     # Initialize ChatOpenAI model
     llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
 
@@ -81,7 +56,7 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.image("gpt_scholar.png", width=250)  # Replace with your logo
+        st.image("app/gpt_scholar.png", width=250)  # Replace with your logo
 
         # OpenAI API Key input field
         openai_api_key = st.text_input("Enter your OpenAI API Key", key="langchain_search_api_key_openai", type="password")
@@ -90,7 +65,9 @@ def main():
 
         # Subject input field
         subjects = ['','Calculus 1', 'Physics', 'Computer Science', 'Finance']
-        subject = st.selectbox("Select A Subject", subjects) 
+        subject = st.selectbox("Select A Subject", subjects)
+        if subject:
+            st.session_state.input_method = 'subject' 
 
         # PDF file uploader
         pdf_file = st.file_uploader("Upload Your Own PDF", type=['pdf']) 
@@ -128,6 +105,7 @@ def main():
     
     if st.session_state.input_method == 'subject':
         data = ingest.context(subject)
+        st.info(f"'{subject}' was selected. Ask your question now!")
 
     elif st.session_state.input_method == 'pdf':
         pdf_data = pdf_file.read()
@@ -153,15 +131,17 @@ def main():
             response = qa_llm(data, prompt)
       
         elif st.session_state.input_method == 'pdf':
-            response = qa_pdf_llm(data, prompt)
+            response = qa_llm(data, prompt)
 
         elif st.session_state.input_method == 'url':
             response = qa_llm(data, prompt)
 
-        translated_response = translate_response.translate(response, st.session_state.selected_language)
+        if st.session_state.selected_language != "English":
+            response = translate_response.translate(response, st.session_state.selected_language)
+
         with st.chat_message("assistant"):
-            st.session_state.messages.append({"role": "assistant", "content": translated_response})
-            st.write(translated_response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.write(response)
     
 
 if __name__ == '__main__':
