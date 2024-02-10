@@ -10,18 +10,19 @@ def extract_text_from_pdf(pdf_data):
         pdf_data (bytes): Binary data representing the contents of the PDF file.
 
     Returns:
-        str: Preprocessed text content extracted from the PDF.
+        list: A list of dictionaries, where each dictionary contains the text content of a page.
     """
+    pages_content = []
     with BytesIO(pdf_data) as f:
-        text_content = ""
         with pdfplumber.open(f) as pdf:
             for page in pdf.pages:
-                text_content += page.extract_text()
+                text_content = page.extract_text()
+                # Basic text preprocessing
+                text_content = preprocess(text_content)
+                pages_content.append({"page_content": text_content})
     
-    # Basic text preprocessing
-    text_content = preprocess(text_content)
-    
-    return text_content
+    return pages_content
+
 
 def preprocess(text):
     """
