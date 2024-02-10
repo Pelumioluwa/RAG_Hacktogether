@@ -1,6 +1,5 @@
 import streamlit as st
 from langchain_openai import OpenAIEmbeddings
-# from langchain_community.vectorstores import FAISS
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
@@ -8,56 +7,67 @@ from langchain.chains import ConversationalRetrievalChain
 import pdf_upload
 import ingest
 import scrape
+import translate_response
 import os
 
-# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_V3.0.py
+# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_V4.0.py
 
+# Function to perform question answering using OpenAI LLM with given data
 def qa_llm(data, prompt):
+    # Initialize OpenAI embeddings and Chroma vector store
     embeddings = OpenAIEmbeddings()
-    #vectorstore = FAISS.from_documents(data, embedding=embeddings)
     vectorstore = Chroma.from_documents(data, embedding=embeddings)
 
+    # Initialize ChatOpenAI model
     llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
 
+    # Initialize conversation memory
     memory = ConversationBufferMemory(
         memory_key='chat_history',
         return_messages=True,
         output_key='answer'
     )
 
+    # Initialize conversational retrieval chain
     conversation_chain = ConversationalRetrievalChain.from_llm(
-            llm=llm,
-            chain_type="stuff",
-            retriever=vectorstore.as_retriever(),
-            memory=memory,
-            return_source_documents=True)
+        llm=llm,
+        chain_type="stuff",
+        retriever=vectorstore.as_retriever(),
+        memory=memory,
+        return_source_documents=True
+    )
     
+    # Get response from the model
     result = conversation_chain({"question": prompt})
 
     return result["answer"]
 
-#Function to read user PDF and send it to the LLM
-
+# Function to read user PDF and send it to the LLM for question answering
 def qa_pdf_llm(data, prompt):
+    # Initialize OpenAI embeddings and Chroma vector store
     embeddings = OpenAIEmbeddings()
-    #vectorstore = FAISS.from_documents(data, embedding=embeddings)
     vectorstore = Chroma.from_texts([page['page_content'] for page in data], embedding=embeddings)
 
+    # Initialize ChatOpenAI model
     llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
 
+    # Initialize conversation memory
     memory = ConversationBufferMemory(
         memory_key='chat_history',
         return_messages=True,
         output_key='answer'
     )
 
+    # Initialize conversational retrieval chain
     conversation_chain = ConversationalRetrievalChain.from_llm(
-            llm=llm,
-            chain_type="stuff",
-            retriever=vectorstore.as_retriever(),
-            memory=memory,
-            return_source_documents=True)
+        llm=llm,
+        chain_type="stuff",
+        retriever=vectorstore.as_retriever(),
+        memory=memory,
+        return_source_documents=True
+    )
     
+    # Get response from the model
     result = conversation_chain({"question": prompt})
 
     return result["answer"]
@@ -66,6 +76,8 @@ def main():
     # Initialize session state if not already initialized
     if 'input_method' not in st.session_state:
         st.session_state.input_method = None
+    if 'selected_language' not in st.session_state:
+        st.session_state.selected_language = "English"  # Default language
 
     # Sidebar
     with st.sidebar:
@@ -95,8 +107,8 @@ def main():
             st.session_state.input_method = 'url'
         
         # Language selection
-        languages = ["English", "Spanish", "French"]
-        language = st.selectbox("Select the Language for Responses", languages)
+        languages = ["English", "Spanish", "French","Hindi","Chinese","Arabic","Russian","Portuguese","Japanese","German","Korean","Italian","Turkish","Dutch"]
+        st.session_state.selected_language  = st.selectbox("Select the Language for Responses", languages)
 
     # Check if any input is activated
     if 'input_activated' not in st.session_state:
@@ -108,7 +120,7 @@ def main():
     # If input is activated and language is selected, activate chat functionality
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
-        {"role": "assistant", "content": "Hi, I'm a chatbot trained in first year university concepts. Select a topic and ask me question to learn with me. I can also read PDFs and answer questions about them."}
+        {"role": "assistant", "content": "Hi, I'm a chatbot trained in first year university concepts. Select a topic and ask me question to learn with me. I can also read PDFs and Webpages and answer questions about them."}
     ]
 
     for msg in st.session_state.messages:
@@ -122,10 +134,11 @@ def main():
         pdf_filename = pdf_file.name  # Get the name of the uploaded PDF file
         st.info(f"PDF File '{pdf_filename}' Read Successfully. Ask your question now!")
 
-        #Read the PDF file and send it to the LLM            
+        # Read the PDF file and send it to the LLM            
         data = pdf_upload.extract_text_from_pdf(pdf_data)
    
     elif st.session_state.input_method == 'url':
+        st.info(f"URL Read Successfully. Ask your question now!")
         data = scrape.scrape_web(url)
 
     if prompt := st.chat_input(placeholder="What's a derivative?"):
@@ -136,15 +149,20 @@ def main():
             st.info("Please add your OpenAI API key to continue.")
             st.stop()
 
-        if st.session_state.input_method == 'subject' or st.session_state.input_method == 'url':
+        if st.session_state.input_method == 'subject':
             response = qa_llm(data, prompt)
       
         elif st.session_state.input_method == 'pdf':
             response = qa_pdf_llm(data, prompt)
 
+        elif st.session_state.input_method == 'url':
+            response = qa_llm(data, prompt)
+
+        translated_response = translate_response.translate(response, st.session_state.selected_language)
         with st.chat_message("assistant"):
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            st.write(response)
+            st.session_state.messages.append({"role": "assistant", "content": translated_response})
+            st.write(translated_response)
+    
 
 if __name__ == '__main__':
     main()

@@ -16,13 +16,14 @@ def extract_text_from_pdf(pdf_data):
     with BytesIO(pdf_data) as f:
         with pdfplumber.open(f) as pdf:
             for page in pdf.pages:
+                # Extract text content from each page
                 text_content = page.extract_text()
                 # Basic text preprocessing
                 text_content = preprocess(text_content)
+                # Append preprocessed text content to the list
                 pages_content.append({"page_content": text_content})
     
     return pages_content
-
 
 def preprocess(text):
     """
