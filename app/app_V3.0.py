@@ -5,7 +5,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-import user_pdf_processor
+import pdf_upload
 import ingest
 import scrape
 import os
@@ -69,7 +69,7 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.image("app/gptlearner.png", width=250)  # Replace with your logo
+        st.image("gpt_scholar.png", width=250)  # Replace with your logo
 
         # OpenAI API Key input field
         openai_api_key = st.text_input("Enter your OpenAI API Key", key="langchain_search_api_key_openai", type="password")
@@ -123,7 +123,7 @@ def main():
         st.info(f"PDF File '{pdf_filename}' Read Successfully. Ask your question now!")
 
         #Read the PDF file and send it to the LLM            
-        data = user_pdf_processor.extract_text_from_pdf(pdf_data)
+        data = pdf_upload.extract_text_from_pdf(pdf_data)
    
     elif st.session_state.input_method == 'url':
         data = scrape.scrape_web(url)
@@ -136,14 +136,11 @@ def main():
             st.info("Please add your OpenAI API key to continue.")
             st.stop()
 
-        if st.session_state.input_method == 'subject':
+        if st.session_state.input_method == 'subject' or st.session_state.input_method == 'url':
             response = qa_llm(data, prompt)
       
         elif st.session_state.input_method == 'pdf':
             response = qa_pdf_llm(data, prompt)
-
-        elif st.session_state.input_method == 'url':
-            response = qa_llm(data, prompt)
 
         with st.chat_message("assistant"):
             st.session_state.messages.append({"role": "assistant", "content": response})
