@@ -1,6 +1,6 @@
 # gptScholar
 
-Welcome to the GitHub repository of our app called **gptScholar** which we designed by [AI-CHAT-APP-HACK](https://github.com/microsoft/AI-Chat-App-Hack), organized by Microsoft. **gptScholar** is a chatbot that aims to provide a platform for 1st year undergrad students to get assistance with their courses. The application The application uses technologies like Streamlit for the user interface, OpenAI's GPT-4 Turbo model for generating responses, and Python libraries such as langchain_openai and langchain_community for natural language processing tasks. With gptScholar, students can upload PDF files, enter URLs to webpages, or select specific subjects such as Calculus 1, Physics, Computer Science, or Finance. The chatbot then processes the input data, extracts relevant information, and provides answers and insights tailored to the user's queries. Whether it's seeking explanations for academic concepts, clarifying doubts, or exploring innovative solutions, gptScholar offers a convenient and efficient platform to support students' educational endeavors.
+Welcome to the GitHub repository of our app called **gptScholar** which we designed for the [AI-Chat-App-Hack](https://github.com/microsoft/AI-Chat-App-Hack), organized by Microsoft. **gptScholar** is a chatbot that aims to provide a platform for 1st year undergrad students to get assistance with their courses. The application uses technologies like Streamlit for the user interface, OpenAI's GPT-4 Turbo model for generating responses, and Python libraries such as langchain_openai and langchain_community for natural language processing tasks. With **gptScholar**, students can upload PDF files, enter URLs to webpages, or select specific subjects such as Calculus 1, Physics, Computer Science, or Finance. The chatbot then processes the input data, extracts relevant information, and provides answers and insights tailored to the user's queries. Whether it's seeking explanations for academic concepts, clarifying doubts, or exploring innovative solutions, gptScholar offers a convenient and efficient platform to support students' educational endeavors.
 
 ![Icon](gpt_scholar.png)
 
@@ -20,7 +20,7 @@ Whether you're a student seeking explanations for academic concepts, a professio
 
 ## Project Structure
 
-The project consists of the following Python files:
+The project consists of the following files:
 
 - **App.py**: This file contains the main script that runs the Streamlit application. It handles user interactions, file uploads, and the evaluation of business ideas using the GPT-4 Turbo model.
   
@@ -37,12 +37,10 @@ To access the application, visit: [hackapp.eastus.azurecontainer.io](hackapp.eas
 
 ## Teammates
 
-This project was developed by the following team members:
+This project was developed by MMAI Students of Schulich School of Businees:
 
 | Name             | Email                  | Socials                                      |
 |------------------|------------------------|-------------------------------------------------------|
 | Pelumioluva Abiola| pelumi@schulich.yorku.ca| [LinkedIn](https://www.linkedin.com/in/pelumioluwa-abiola-a136bbab/)      |
 | Sabrina Renna    | srenna@schulich.yorku.ca | [LinkedIn](https://www.linkedin.com/in/sabrinarenna/)               |
-| Sushmit Richard  | sushmit9@schulich.yorku.ca | [Twitter](https://www.linkedin.com/in/sushmitrichard/)        |
-
-
+| Sushmit Richard  | sushmit9@schulich.yorku.ca | [LinkedIn](https://www.linkedin.com/in/sushmitrichard/)        |
