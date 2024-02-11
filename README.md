@@ -8,11 +8,11 @@ Welcome to the GitHub repository of our app called **gptScholar** which we desig
 
 **gptScholar** is a Streamlit application deployed on **Microsoft Azure**, designed to facilitate the evaluation of various concepts and topics using Large Language Models (LLMs). Leveraging the powerful GPT-4 Turbo model, the application provides insights and answers to users' questions across different domains.
 
-Users interact with the application by either uploading PDF files, entering URLs to webpages, or selecting specific subjects of interest. The application then processes the input data, extracts relevant information, and utilizes the GPT-4 Turbo model to generate responses.
+One of the unique features of **gptScholar** is its implementation of the **RAG (Retriever Augmented Generation) architecture, enhancing the efficiency and accuracy of responses. The Retriever component helps in retrieving relevant information from the input data, the Answer Generator generates candidate answers based on the retrieved information, and the Generator fine-tunes the answers to provide contextually accurate responses.
 
-One of the unique features of **gptScholar** is its multilingual support. Students can enter their queries in any language, and the application will provide responses in the selected language from the dropdown. This feature enhances accessibility and accommodates users from diverse linguistic backgrounds.
+**gptScholar** offers multilingual support. Students can enter their queries in any language, and the application will provide responses in the selected language from the dropdown. This feature enhances accessibility and accommodates users from diverse linguistic backgrounds.
 
-Upon uploading a PDF file or entering a URL, users can ask questions related to the content, and the application provides answers based on the analysis performed by the GPT-4 Turbo model. Additionally, users can select specific subjects, such as Calculus 1, Physics, Computer Science, or Finance, to receive information and answers tailored to those topics.
+Users interact with the application by either uploading PDF files, entering URLs to webpages, or selecting specific subjects of interest. The application then processes the input data, extracts relevant information using the RAG architecture, and utilizes the GPT-4 Turbo model to generate responses.
 
 The application's versatility allows users to explore various subjects, seek clarification on complex topics, or simply engage in educational interactions powered by AI technology.
 
@@ -37,10 +37,12 @@ To access the application, visit: [hackapp.eastus.azurecontainer.io](hackapp.eas
 
 ## Teammates
 
-This project was developed by MMAI Students of Schulich School of Businees:
+This project was developed by MMAI Students of Schulich School of Business:
 
 | Name             | Email                  | Socials                                      |
 |------------------|------------------------|-------------------------------------------------------|
 | Pelumioluva Abiola| pelumi@schulich.yorku.ca| [LinkedIn](https://www.linkedin.com/in/pelumioluwa-abiola-a136bbab/)      |
 | Sabrina Renna    | srenna@schulich.yorku.ca | [LinkedIn](https://www.linkedin.com/in/sabrinarenna/)               |
 | Sushmit Richard  | sushmit9@schulich.yorku.ca | [LinkedIn](https://www.linkedin.com/in/sushmitrichard/)        |
+
+Feel free to reach out to any of us for inquiries or collaborations!
