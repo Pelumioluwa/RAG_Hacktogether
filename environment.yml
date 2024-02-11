@@ -7,4 +7,12 @@ dependencies:
   - pip
   - pip:
     - streamlit
+    - langchain
+    - langchain-openai
+    - chromadb
+    - BeautifulSoup4
+    - pypdf
+    - pdfplumber
+
+
 

@@ -1,4 +1,4 @@
-from openai import OpenAI  # Assuming this is the OpenAI API
+from openai import OpenAI 
 import streamlit as st
 
 def translate(response, language):

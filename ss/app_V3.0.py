@@ -4,48 +4,80 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-import pdf_upload
+import user_pdf_processor
 import ingest
-import scrape
-import translate_response
+import app.ss.scrape as scrape
 import os
 
-# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_V4.0.py
+# streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app_V3.0.py
 
-# Function to perform question answering using OpenAI LLM with given data
 def qa_llm(data, prompt):
-    # Initialize OpenAI embeddings and Chroma vector store
     embeddings = OpenAIEmbeddings()
+    vectorstore = Chroma.from_documents(data, embedding=embeddings)
 
-    if st.session_state.input_method == 'pdf':
-        vectorstore = Chroma.from_texts([page['page_content'] for page in data], embedding=embeddings)
-        
-    else:
-        vectorstore = Chroma.from_documents(data, embedding=embeddings)
-       
-    # Initialize ChatOpenAI model
     llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
 
-    # Initialize conversation memory
     memory = ConversationBufferMemory(
         memory_key='chat_history',
         return_messages=True,
         output_key='answer'
     )
 
-    # Initialize conversational retrieval chain
     conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        chain_type="stuff",
-        retriever=vectorstore.as_retriever(),
-        memory=memory,
-        return_source_documents=True
-    )
+            llm=llm,
+            chain_type="stuff",
+            retriever=vectorstore.as_retriever(),
+            memory=memory,
+            return_source_documents=True)
     
-    # Get response from the model
     result = conversation_chain({"question": prompt})
 
     return result["answer"]
+
+#Function to read user PDF and send it to the LLM
+
+def qa_pdf_llm(data, prompt):
+    embeddings = OpenAIEmbeddings()
+    #vectorstore = FAISS.from_documents(data, embedding=embeddings)
+    vectorstore = Chroma.from_texts([page['page_content'] for page in data], embedding=embeddings)
+
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
+
+    memory = ConversationBufferMemory(
+        memory_key='chat_history',
+        return_messages=True,
+        output_key='answer'
+    )
+
+    conversation_chain = ConversationalRetrievalChain.from_llm(
+            llm=llm,
+            chain_type="stuff",
+            retriever=vectorstore.as_retriever(),
+            memory=memory,
+            return_source_documents=True)
+    
+    result = conversation_chain({"question": prompt})
+
+    return result["answer"]
+    t_llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo-preview")
+    
+    # Construct the prompt with placeholders for response and language
+    prompt = f"Translate the following text into {language}: {response}"
+    
+    try:
+        # Generate a translation from the language model
+        translated_response = t_llm.invoke(prompt)
+        
+        # Ensure a response is received and meets the criteria
+        if translated_response and isinstance(translated_response, str):
+            return translated_response
+        else:
+            raise ValueError("Empty or invalid response received from the language model.")
+    except Exception as e:
+        # Handle any errors that occur during model generation
+        st.error(f"An error occurred during translation: {e}")
+        return "Error occurred during translation"
+
 
 def main():
     # Initialize session state if not already initialized
@@ -56,7 +88,7 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.image("app/gpt_scholar.png", width=250)  # Replace with your logo
+        st.image("gptlearner.png", width=250)  # Replace with your logo
 
         # OpenAI API Key input field
         openai_api_key = st.text_input("Enter your OpenAI API Key", key="langchain_search_api_key_openai", type="password")
@@ -65,9 +97,7 @@ def main():
 
         # Subject input field
         subjects = ['','Calculus 1', 'Physics', 'Computer Science', 'Finance']
-        subject = st.selectbox("Select A Subject", subjects)
-        if subject:
-            st.session_state.input_method = 'subject' 
+        subject = st.selectbox("Select A Subject", subjects) 
 
         # PDF file uploader
         pdf_file = st.file_uploader("Upload Your Own PDF", type=['pdf']) 
@@ -97,7 +127,7 @@ def main():
     # If input is activated and language is selected, activate chat functionality
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
-        {"role": "assistant", "content": "Hi, I'm a chatbot trained in first year university concepts. Select a topic and ask me question to learn with me. I can also read PDFs and Webpages and answer questions about them."}
+        {"role": "assistant", "content": "Hi, I'm a chatbot trained in first year university concepts. Select a topic and ask me question to learn with me. I can also read PDFs and answer questions about them."}
     ]
 
     for msg in st.session_state.messages:
@@ -105,15 +135,14 @@ def main():
     
     if st.session_state.input_method == 'subject':
         data = ingest.context(subject)
-        st.info(f"'{subject}' was selected. Ask your question now!")
 
     elif st.session_state.input_method == 'pdf':
         pdf_data = pdf_file.read()
         pdf_filename = pdf_file.name  # Get the name of the uploaded PDF file
         st.info(f"PDF File '{pdf_filename}' Read Successfully. Ask your question now!")
 
-        # Read the PDF file and send it to the LLM            
-        data = pdf_upload.extract_text_from_pdf(pdf_data)
+        #Read the PDF file and send it to the LLM            
+        data = user_pdf_processor.extract_text_from_pdf(pdf_data)
    
     elif st.session_state.input_method == 'url':
         st.info(f"URL Read Successfully. Ask your question now!")
@@ -131,18 +160,14 @@ def main():
             response = qa_llm(data, prompt)
       
         elif st.session_state.input_method == 'pdf':
-            response = qa_llm(data, prompt)
+            response = qa_pdf_llm(data, prompt)
 
         elif st.session_state.input_method == 'url':
             response = qa_llm(data, prompt)
 
-        if st.session_state.selected_language != "English":
-            response = translate_response.translate(response, st.session_state.selected_language)
-
         with st.chat_message("assistant"):
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.write(response)
-    
 
 if __name__ == '__main__':
     main()

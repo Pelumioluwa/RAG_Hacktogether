@@ -14,6 +14,7 @@ docker push hackappregistry.azurecr.io/hackapp_demo:v1
 
 # deploy application
 az container create --resource-group hackapp-rg --name hackapp -f deployment.yml
+az container restart --resource-group hackapp-rg --name hackapp
 
 
 hackapp.eastus.azurecontainer.io

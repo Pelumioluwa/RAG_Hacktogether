@@ -3,4 +3,4 @@
 nginx -t &&
 service nginx start &&
 # cron &&
-streamlit run app/app.py --theme.base "dark"
+streamlit run app/app.py --theme.base "light"
