@@ -8,7 +8,7 @@ Welcome to the GitHub repository of our app called **gptScholar** which we desig
 
 **gptScholar** is a Streamlit application deployed on **Microsoft Azure**, designed to facilitate the evaluation of various concepts and topics using Large Language Models (LLMs). Leveraging the powerful GPT-4 Turbo model, the application provides insights and answers to users' questions across different domains.
 
-One of the unique features of **gptScholar** is its implementation of the **RAG (Retriever Augmented Generation) architecture, enhancing the efficiency and accuracy of responses. The Retriever component helps in retrieving relevant information from the input data, the Answer Generator generates candidate answers based on the retrieved information, and the Generator fine-tunes the answers to provide contextually accurate responses.
+One of the unique features of **gptScholar** is its implementation of the **RAG (Retriever Augmented Generation)** architecture, enhancing the efficiency and accuracy of responses. The Retriever component helps in retrieving relevant information from the input data, the Answer Generator generates candidate answers based on the retrieved information, and the Generator fine-tunes the answers to provide contextually accurate responses.
 
 **gptScholar** offers multilingual support. Students can enter their queries in any language, and the application will provide responses in the selected language from the dropdown. This feature enhances accessibility and accommodates users from diverse linguistic backgrounds.
 
