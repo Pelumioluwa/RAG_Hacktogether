@@ -32,7 +32,7 @@ The project consists of the following files:
 
 - **Database**: This folder includes scripts for setting up database on CosmosDB, setting up indexer on Azure AI search and connecting CosmosDB with Azure AI search for ease of interaction and data pipeline
   
-- - **Speec_to_text.py**: This script receives query from users in form of spoken words and passes it into the chatbot. It receives speech in 4 languages: English, Italian, French and Hindi.
+- **Speec_to_text.py**: This script receives query from users in form of spoken words and passes it into the chatbot. It receives speech in 4 languages: English, Italian, French and Hindi.
 
   
 
