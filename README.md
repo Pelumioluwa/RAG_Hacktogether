@@ -19,7 +19,6 @@ The application's versatility allows users to explore various subjects, seek cla
 Whether you're a student seeking explanations for academic concepts, a professional looking for insights into specific domains, or simply curious about a wide range of topics, **gptScholar** offers a convenient platform to satisfy your informational needs.
 
 ## Sample Product Use Cases
-Main Use Case:
 
 - **Academic Evaluation**: Students and researchers can utilize gptScholar to evaluate various academic concepts and topics, gaining insights and answers across different domains.
 Other User Cases:
