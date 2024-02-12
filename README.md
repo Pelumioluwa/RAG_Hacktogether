@@ -14,9 +14,23 @@ One of the unique features of **gptScholar** is its implementation of the **RAG 
 
 Users interact with the application by either uploading PDF files, entering URLs to webpages, or selecting specific subjects of interest. The application then processes the input data, extracts relevant information using the RAG architecture, and utilizes the GPT-4 Turbo model to generate responses.
 
-The application's versatility allows users to explore various subjects, seek clarification on complex topics, or simply engage in educational interactions powered by AI technology.
+The application's versatility allows users to explore various subjects, seek clarification on complex topics, or simply engage in educational interactions powered by AI technology. While gptScholar is primarily designed for academic purposes, its functionality extends beyond academia. Users can upload PDFs or website URLs and ask questions related to the content provided, regardless of its origin.
 
 Whether you're a student seeking explanations for academic concepts, a professional looking for insights into specific domains, or simply curious about a wide range of topics, **gptScholar** offers a convenient platform to satisfy your informational needs.
+
+## Sample Product Use Cases
+Main Use Case:
+
+- **Academic Evaluation**: Students and researchers can utilize gptScholar to evaluate various academic concepts and topics, gaining insights and answers across different domains.
+Other User Cases:
+
+- **Professional Research**: Professionals across industries can use gptScholar to conduct research, gather insights, and seek clarification on specific topics relevant to their field.
+  
+- **Language Learning**: Language learners can leverage the multilingual support of gptScholar to practice reading comprehension, understanding of complex texts and writing in different languages.
+
+- **Fact-Checking**: Journalists, fact-checkers, and individuals interested in verifying information can employ gptScholar to quickly access reliable information from various pdfs or weblinks.
+
+- **Personal Interest Exploration**: Individuals can explore a wide range of topics and quickly retrieve information from pdfs and weblinks.
 
 ## Project Structure
 
