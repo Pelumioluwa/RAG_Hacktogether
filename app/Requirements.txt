@@ -1,0 +1,13 @@
+pip install openai
+pip install python-dotenv
+pip install azure-core
+pip install azure-cosmos
+pip install tenacity
+pip install --index-url=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-python/pypi/simple/ azure-search-documents==11.4.0a20230509004
+install pip install azure-cognitiveservices-speech
+pip install streamlit
+pip install langchain
+pip install pypdf
+pip install huggingface_hub
+pip install sentence_transformers
+pip install chromadb
