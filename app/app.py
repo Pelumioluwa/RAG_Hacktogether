@@ -144,30 +144,29 @@ def main():
         data = ingest.scrape_web(url)
     
     # Chat input for text prompt
-    if st.session_state.input_method:
-        if prompt := st.chat_input(placeholder="What's a derivative?"):
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            st.chat_message("user").write(prompt)
+    if prompt := st.chat_input(placeholder="What's a derivative?"):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.chat_message("user").write(prompt)
 
-            if not openai_api_key:
-                st.info("Please add your OpenAI API key to continue.")
-                st.stop()
+        if not openai_api_key:
+            st.info("Please add your OpenAI API key to continue.")
+            st.stop()
 
-            if st.session_state.input_method == 'subject':
-                response = qa_llm_subject(prompt)
+        if st.session_state.input_method == 'subject':
+            response = qa_llm_subject(prompt)
 
-            elif st.session_state.input_method == 'pdf':
-                response = qa_llm(data, prompt)
+        elif st.session_state.input_method == 'pdf':
+            response = qa_llm(data, prompt)
 
-            elif st.session_state.input_method == 'url':
-                response = qa_llm(data, prompt)
+        elif st.session_state.input_method == 'url':
+            response = qa_llm(data, prompt)
 
-            if st.session_state.selected_language != "English":
-                response = translate_response.translate(response, st.session_state.selected_language)
+        if st.session_state.selected_language != "English":
+            response = translate_response.translate(response, st.session_state.selected_language)
 
-            with st.chat_message("assistant"):
-                st.session_state.messages.append({"role": "assistant", "content": response})
-                st.write(response)
+        with st.chat_message("assistant"):
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.write(response)
 
     # Add button for speech-to-text
     if st.session_state.input_activated:
