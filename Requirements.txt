@@ -1,16 +1,16 @@
-pip install streamlit
-pip install langchain
-pip install langchain-openai
-pip install chromadb
-pip install BeautifulSoup4
-pip install pypdf
-pip install pdfplumber
-pip install azure-cognitiveservices-speech
-pip install numpy
-pip install openai
-pip install python-dotenv
-pip install azure-core
-pip install azure-cosmos
-pip install tenacity
-pip install --index-url=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-python/pypi/simple/ azure-search-documents==11.4.0a20230509004
-pip install sentence-transformers
+streamlit
+langchain
+langchain-openai
+chromadb
+BeautifulSoup4
+pypdf
+pdfplumber
+azure-cognitiveservices-speech
+numpy
+openai
+python-dotenv
+azure-core
+azure-cosmos
+tenacity
+install --index-url=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-python/pypi/simple/ azure-search-documents==11.4.0a20230509004
+sentence-transformers
