@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
@@ -37,8 +37,8 @@ def qa_llm_subject(query):
 # Function to perform question answering using OpenAI LLM with given data
 
 def qa_llm(data, prompt):
-    # Initialize OpenAI embeddings and Chroma vector store
-    embeddings = OpenAIEmbeddings()
+    # Initialize Huggingface embeddings and Chroma vector store
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 
     if st.session_state.input_method == 'pdf':
         vectorstore = Chroma.from_texts([page['page_content'] for page in data], embedding=embeddings)
