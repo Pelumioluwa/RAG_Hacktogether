@@ -80,7 +80,7 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.image("gpt_scholar.png", width=250)  # Replace with your logo
+        st.image("app/gpt_scholar.png", width=250)  # Replace with your logo
 
         # OpenAI API Key input field
         openai_api_key = st.text_input("Enter your OpenAI API Key", key="langchain_search_api_key_openai", type="password")

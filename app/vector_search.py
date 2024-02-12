@@ -10,7 +10,7 @@ from langchain_core.documents import Document
 from typing import List
 
 #import credentials
-config = dotenv_values('credentials.env')
+config = dotenv_values('app/credentials.env')
 cog_search_endpoint = config['cog_search_endpoint']
 cog_search_key = config['cog_search_key']
 cosmosdb_connection_str_database = config['cosmosdb_connection_str_database']

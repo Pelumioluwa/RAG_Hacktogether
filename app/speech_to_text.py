@@ -2,7 +2,7 @@
 import azure.cognitiveservices.speech as speechsdk
 from dotenv import dotenv_values
 
-config = dotenv_values('credentials.env')
+config = dotenv_values('app/credentials.env')
 
 speech_to_text_key = config["speech_to_text_key"]
 speech_to_text_region = config["speech_to_text_region"]
