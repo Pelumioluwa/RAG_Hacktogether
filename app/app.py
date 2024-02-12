@@ -84,7 +84,7 @@ def main():
 
         # OpenAI API Key input field
         openai_api_key = st.text_input("Enter your OpenAI API Key", key="langchain_search_api_key_openai", type="password")
-        # Set the API key as an environment variable
+        # Set the API key as an environment variableaz container restart --resource-group hackapp-rg --name hackapp
         os.environ["OPENAI_API_KEY"] = openai_api_key            
 
         # Subject input field
