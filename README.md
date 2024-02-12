@@ -34,17 +34,17 @@ Whether you're a student seeking explanations for academic concepts, a professio
 
 The project consists of the following files:
 
-- **App.py**: This file contains the main script that runs the Streamlit application. It handles user interactions, file uploads, and the evaluation of business ideas using the GPT-4 Turbo model.
+- **app.py**: This file contains the main script that runs the Streamlit application. It handles user interactions, file uploads, and the evaluation of business ideas using the GPT-4 Turbo model.
   
-- **Ingest.py**: This script provides functions for loading data, including PDF documents and webpages, for analysis. It preprocesses the data to prepare it for evaluation.
+- **ingest.py**: This script provides functions for loading data, including PDF documents and webpages, for analysis. It preprocesses the data to prepare it for evaluation.
   
-- **Pdf_upload.py**: This script is responsible for extracting text content from PDF files. It preprocesses the text to remove unwanted characters and normalizes whitespace.
+- **pdf_upload.py**: This script is responsible for extracting text content from PDF files. It preprocesses the text to remove unwanted characters and normalizes whitespace.
   
-- **Translate_response.py**: This script handles the translation of responses into different languages using the OpenAI API. It interacts with the GPT-4 Turbo model to generate translated responses.
+- **translate_response.py**: This script handles the translation of responses into different languages using the OpenAI API. It interacts with the GPT-4 Turbo model to generate translated responses.
 
-- **Database**: This folder includes scripts for setting up database on CosmosDB, setting up indexer on Azure AI search and connecting CosmosDB with Azure AI search for ease of interaction and data pipeline
+- **cosmodb**: This folder includes scripts for setting up database on CosmosDB, setting up indexer on Azure AI search and connecting CosmosDB with Azure AI search for ease of interaction and data pipeline
   
-- **Speec_to_text.py**: This script receives query from users in form of spoken words and passes it into the chatbot. It receives speech in 4 languages: English, Italian, French and Hindi.
+- **speech_to_text.py**: This script receives query from users in form of spoken words and passes it into the chatbot. It receives speech in 4 languages: English, Italian, French and Hindi.
 
   
 
