@@ -23,7 +23,8 @@ dependencies:
     - install --index-url=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-python/pypi/simple/azure-search-documents==11.4.0a20230509004
     - sentence-transformers
     - azure-search
-    - azure-search-documents
+    - azure-search-documents==11.4.0a20230509004
+
   
 
 
