@@ -21,7 +21,6 @@ Whether you're a student seeking explanations for academic concepts, a professio
 ## Sample Product Use Cases
 
 - **Academic Evaluation**: Students and researchers can utilize gptScholar to evaluate various academic concepts and topics, gaining insights and answers across different domains.
-Other User Cases:
 
 - **Professional Research**: Professionals across industries can use gptScholar to conduct research, gather insights, and seek clarification on specific topics relevant to their field.
   
