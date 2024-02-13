@@ -42,7 +42,7 @@ The project consists of the following files:
   
 - **translate_response.py**: This script handles the translation of responses into different languages using the OpenAI API. It interacts with the GPT-4 Turbo model to generate translated responses.
 
-- **cosmodb**: This folder includes scripts for setting up database on CosmosDB, setting up indexer on Azure AI search and connecting CosmosDB with Azure AI search for ease of interaction and data pipeline
+- **cosmodb**: This folder includes scripts for setting up database on CosmosDB, uploading data to CosmosDB, setting up indexer on Azure AI search and connecting CosmosDB with Azure AI search for ease of interaction and data pipeline
   
 - **speech_to_text.py**: This script receives query from users in form of spoken words and passes it into the chatbot. It receives speech in 4 languages: English, Italian, French and Hindi.
 
