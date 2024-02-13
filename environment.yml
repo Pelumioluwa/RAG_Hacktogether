@@ -7,6 +7,8 @@ dependencies:
   - pip
   - pip:
     - streamlit
+    - azure-search-documents
+    - azure-search
     - langchain
     - langchain-openai
     - chromadb
@@ -20,10 +22,10 @@ dependencies:
     - azure-core
     - azure-cosmos
     - tenacity 
-    - install --index-url=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-python/pypi/simple/azure-search-documents==11.4.0a20230509004
     - sentence-transformers
-    - azure-search
-    - azure-search-documents==11.4.0a20230509004
+
+    
+    #- azure-search-documents==11.4.0a20230509004
 
   
 

@@ -12,6 +12,8 @@ import os
 import vector_search
 import speech_to_text
 
+#  streamlit run /Users/sabrinarenna/Documents/GitHub/RAG_Hacktogether/app/app.py
+
 # #feed result into llm chain
 def qa_llm_subject(query):
 
