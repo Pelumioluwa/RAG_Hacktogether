@@ -46,7 +46,12 @@ The project consists of the following files:
   
 - **speech_to_text.py**: This script receives query from users in form of spoken words and passes it into the chatbot. It receives speech in 4 languages: English, Italian, French and Hindi.
 
-  
+## Demo
+
+Check out a short demo of our project on YouTube:
+
+[![Demo Video](https://img.youtube.com/vi/O2Pb5XlDMCM/0.jpg)](https://www.youtube.com/watch?v=O2Pb5XlDMCM)
+ 
 
 ## Access the App 
 
