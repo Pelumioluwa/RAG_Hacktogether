@@ -1,2 +1,9 @@
 
 .env
+installation.md
+.DS_Store
+app/.DS_Store
+app/.DS_Store
+credentials.env
+app/credentials.env
+.DS_Store

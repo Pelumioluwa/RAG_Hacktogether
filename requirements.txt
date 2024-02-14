@@ -1,0 +1,18 @@
+streamlit
+langchain
+langchain-openai
+chromadb
+BeautifulSoup4
+pypdf
+pdfplumber
+azure-cognitiveservices-speech
+numpy
+openai
+python-dotenv
+azure-core
+azure-cosmos
+tenacity
+--index-url=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-python/pypi/simple/ azure-search-documents==11.4.0a20230509004
+sentence-transformers
+azure-search
+

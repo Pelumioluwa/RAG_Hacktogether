@@ -7,4 +7,27 @@ dependencies:
   - pip
   - pip:
     - streamlit
+    - azure-search-documents
+    - azure-search
+    - langchain
+    - langchain-openai
+    - chromadb
+    - BeautifulSoup4
+    - pypdf
+    - pdfplumber
+    - azure-cognitiveservices-speech
+    - numpy
+    - openai
+    - python-dotenv
+    - azure-core
+    - azure-cosmos
+    - tenacity 
+    - sentence-transformers
+
+    
+    #- azure-search-documents==11.4.0a20230509004
+
+  
+
+
 
