@@ -64,7 +64,7 @@ This project was developed by MMAI Students of Schulich School of Business:
 
 | Name             | Email                  | Socials                                      |
 |------------------|------------------------|-------------------------------------------------------|
-| Pelumioluva Abiola| pelumi@schulich.yorku.ca| [LinkedIn](https://www.linkedin.com/in/pelumioluwa-abiola-a136bbab/)      |
+| Pelumioluwa Abiola| pelumi@yorku.ca| [LinkedIn](https://www.linkedin.com/in/pelumioluwa-abiola-a136bbab/)      |
 | Sabrina Renna    | srenna@schulich.yorku.ca | [LinkedIn](https://www.linkedin.com/in/sabrinarenna/)               |
 | Sushmit Richard  | sushmit9@schulich.yorku.ca | [LinkedIn](https://www.linkedin.com/in/sushmitrichard/)        |
 
